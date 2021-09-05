@@ -5,12 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VegetablePatch"
         mc:Ignorable="d"
-        Title="Vegetable Patch" Height="450" Width="800" Icon="0_K9i0YvpC0EbIrJJz.ico">
+        Title="Vegetable Patch" Height="450" Width="800" Icon="Icon.ico">
     <Grid>
         <Button x:Name="AddFile" Content="Добавить Файл" HorizontalAlignment="Left" Height="33" 
                 Margin="601,44,0,0" VerticalAlignment="Top" Width="150" Click="AddFile_Click"/>
-        <ListBox x:Name="Listbox" HorizontalAlignment="Left" Height="340" Margin="54,27,0,0" VerticalAlignment="Top" Width="247" MouseDoubleClick="Listbox_MouseDoubleClick"/>
+        <ListBox x:Name="Listbox" HorizontalAlignment="Left" Height="340" Margin="54,27,0,0" VerticalAlignment="Top" Width="247" MouseDoubleClick="Listbox_MouseDoubleClick">
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                     
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Button x:Name="DeleteFile" Content="Удалить" HorizontalAlignment="Left" Height="30" Margin="601,337,0,0" VerticalAlignment="Top" Width="150" Click="DeleteFile_Click"/>
+        <Button Content="Back Up" x:Name="BackupButton" HorizontalAlignment="Left" Height="39" Margin="601,92,0,0" VerticalAlignment="Top" Width="150" Click="BackupButton_Click"/>
 
     </Grid>
 </Window>

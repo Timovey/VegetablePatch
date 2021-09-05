@@ -15,6 +15,28 @@ namespace VegetablePatch
     {
         private static string nameListDocs = "docs.xml";
 
+        public static void Backup(string path)
+        {
+            List<string> names = GetListDocs();
+            try
+            {
+                if (!File.Exists(nameListDocs))
+                {
+                    return;
+                }
+
+                XDocument xDocument = XDocument.Load(nameListDocs);
+                var xElements = xDocument.Root.Elements("Doc").ToList();
+                foreach (var elem in xElements)
+                {
+                    File.Copy(elem.Value, path, true);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static List<string> GetListDocs()
         {
             var list = new List<string>();

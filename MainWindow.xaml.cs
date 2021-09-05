@@ -22,6 +22,17 @@ namespace VegetablePatch
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
         {
+            bool result;
+            var window = new ChildWindow();
+            if (window.ShowDialog().Value)
+            {
+                 result = (bool)window.Result;
+            }
+            else
+            {
+                return;
+            }
+
             var dialog = new OpenFileDialog();
             dialog.Filter = "docx|*.docx";
 
@@ -79,6 +90,29 @@ namespace VegetablePatch
             BussinesLogic.DeleteFile(Listbox.SelectedValue.ToString());
             MessageBox.Show("Произошла жатва, овощ удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             Load();
+        }
+
+        private void BackupButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(Listbox.Items.Count < 1)
+            {
+                MessageBox.Show("Сначала посади овощ, потом требуй урожай", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var dialog = new OpenFileDialog();
+
+            if ((bool)dialog.ShowDialog())
+            {
+                try
+                {
+                    BussinesLogic.AddFile(dialog.FileName);
+                    MessageBox.Show("Овощи выгружены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
