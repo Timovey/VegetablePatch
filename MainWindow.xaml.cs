@@ -40,7 +40,7 @@ namespace VegetablePatch
             {
                 try
                 {
-                    BussinesLogic.AddFile(dialog.FileName);
+                    BussinesLogic.AddFile(dialog.FileName, Category.Шаблоны, result);
                     MessageBox.Show("В грядку попал новый овощ", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
@@ -52,7 +52,7 @@ namespace VegetablePatch
         }
         private void Load()
         {
-            Listbox.ItemsSource = BussinesLogic.GetListDocs();
+            Listbox.ItemsSource = BussinesLogic.GetListDocs(Category.Шаблоны);
         }
 
         private void Listbox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -105,7 +105,7 @@ namespace VegetablePatch
             {
                 try
                 {
-                    BussinesLogic.AddFile(dialog.FileName);
+                    //BussinesLogic.AddFile(dialog.FileName, Category.Шаблоны,);
                     MessageBox.Show("Овощи выгружены", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)

@@ -10,7 +10,7 @@ namespace VegetablePatch
     public class ListViewModel
     {
         public string Name { set; get; }
-        public Color Color { set; get; }
+        public SolidColorBrush Color { set; get; }
         public bool Child { set; get; }
     }
 }

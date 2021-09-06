@@ -10,9 +10,11 @@
         <Button x:Name="AddFile" Content="Добавить Файл" HorizontalAlignment="Left" Height="33" 
                 Margin="601,44,0,0" VerticalAlignment="Top" Width="150" Click="AddFile_Click"/>
         <ListBox x:Name="Listbox" HorizontalAlignment="Left" Height="340" Margin="54,27,0,0" VerticalAlignment="Top" Width="247" MouseDoubleClick="Listbox_MouseDoubleClick">
-            <ListBox.ItemTemplate >
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                     
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="16" Text="{Binding Path=Name}" Background="{Binding Path=Color}" HorizontalAlignment="Center" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

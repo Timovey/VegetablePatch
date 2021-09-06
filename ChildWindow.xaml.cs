@@ -50,11 +50,11 @@ namespace VegetablePatch
                 {
                     if(i == 0)
                     {
-                        Result = true;
+                        Result = false;
                     }
                     else
                     {
-                        Result = false;
+                        Result = true;
                     }
                 }
                 i++;
