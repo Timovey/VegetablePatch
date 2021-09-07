@@ -123,12 +123,17 @@ namespace VegetablePatch
             }
         }
 
-        public static void DeleteFile(string fileName)
+        public static void DeleteFile(string fileName, Category category, bool child)
         {
+            string old = "Взрослые";
+            if (child)
+            {
+                old = "Детские";
+            }
             try
             {
                 XDocument xDocument = XDocument.Load(nameListDocs);
-                var xElements = xDocument.Root.Elements("Doc").ToList();
+                var xElements = xDocument.Root.Element(category.ToString()).Element(old).Elements("Doc").ToList();
                 int count = -1;
                 foreach (var elem in xElements)
                 {
@@ -140,9 +145,10 @@ namespace VegetablePatch
                 }
                 if (count != -1)
                 {
-                    xDocument.Root.Elements("Doc").ElementAt(count).Remove();
+                    xDocument.Root.Element(category.ToString()).Element(old).Elements("Doc").ElementAt(count).Remove();
                     xDocument.Save(nameListDocs);
-                    File.Delete(fileName);
+                    string path = PathSelector(category.ToString(), old, fileName);
+                    File.Delete(path);
                 }
 
             }
@@ -153,15 +159,21 @@ namespace VegetablePatch
         }
 
 
-        public static async void TakeFile(string filePath, string fileName)
+        public static async void TakeFile(string terminalPath, string fileName, Category category, bool child)
         {
-            if (!File.Exists(fileName))
+            string old = "Взрослые";
+            if (child)
+            {
+                old = "Детские";
+            }
+            string appPath = PathSelector(category.ToString(), old, fileName);
+            if (!File.Exists(appPath))
             {
                 throw new Exception("Файл не найден");
             }
             try
             {
-                File.Copy(fileName, filePath, true);
+                File.Copy(appPath, terminalPath, true);
 
                 Application app = new Application();
                 app.Visible = true;
@@ -169,7 +181,7 @@ namespace VegetablePatch
                 {
                     try
                     {
-                        Document doc = app.Documents.Open(FileName: filePath, Visible: true);
+                        Document doc = app.Documents.Open(FileName: terminalPath, Visible: true);
                     }
                     catch (Exception ex)
                     {
@@ -337,6 +349,14 @@ namespace VegetablePatch
             string name = splitString.Last();
 
             return name;
+        }
+        public static SolidColorBrush GetChildColor()
+        {
+            return new SolidColorBrush(ChildColor);
+        }
+        public static SolidColorBrush GetParentColor()
+        {
+            return new SolidColorBrush(ParentColor);
         }
     }
 }

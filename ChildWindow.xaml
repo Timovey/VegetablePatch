@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="Выбор возраста" Icon="Icon.ico" Height="298.096" Width="504.188">
     <Grid>
-        <RadioButton GroupName="Old" HorizontalAlignment="Left" Margin="151,53,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked">
+        <RadioButton Name="Parent" GroupName="Old" HorizontalAlignment="Left" Margin="151,53,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked">
             <StackPanel Orientation="Horizontal" Background="#B283E9DC">
                 <TextBlock>Отец РМ</TextBlock>
             </StackPanel>
         </RadioButton>
-        <RadioButton GroupName="Old" HorizontalAlignment="Left" Height="33" Margin="151,103,0,0" VerticalAlignment="Top" Width="121" Checked="RadioButton_Checked">
+        <RadioButton Name="Child" GroupName="Old" HorizontalAlignment="Left" Height="33" Margin="151,103,0,0" VerticalAlignment="Top" Width="121" Checked="RadioButton_Checked">
             <StackPanel Orientation="Horizontal" Background="#B2EEF17A" >
                 <TextBlock>Сын школы</TextBlock>
             </StackPanel>

@@ -18,6 +18,8 @@ namespace VegetablePatch
         {
             InitializeComponent();
             Load();
+            ParentLabel.Background = BussinesLogic.GetParentColor();
+            ChildLabel.Background = BussinesLogic.GetChildColor();
         }
 
         private void AddFile_Click(object sender, RoutedEventArgs e)
@@ -52,12 +54,12 @@ namespace VegetablePatch
         }
         private void Load()
         {
-            Listbox.ItemsSource = BussinesLogic.GetListDocs(Category.Шаблоны);
+            ListboxTemplate.ItemsSource = BussinesLogic.GetListDocs(Category.Шаблоны);
         }
 
         private void Listbox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (Listbox.SelectedIndex == -1)
+            if (ListboxTemplate.SelectedIndex == -1)
             {
                 MessageBox.Show("Овощей пока еще не завезли", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -66,10 +68,11 @@ namespace VegetablePatch
             {
                 var dialog = new SaveFileDialog();
                 dialog.Filter = "docx|*.docx";
-                dialog.FileName = Listbox.SelectedValue.ToString();
+                dialog.FileName = ((ListViewModel)ListboxTemplate.SelectedValue).Name;
                 if ((bool)dialog.ShowDialog())
                 {
-                    BussinesLogic.TakeFile(dialog.FileName, Listbox.SelectedValue.ToString());
+                    BussinesLogic.TakeFile(dialog.FileName, ((ListViewModel)ListboxTemplate.SelectedValue).Name, GetNameListBox(),
+                        ((ListViewModel)ListboxTemplate.SelectedValue).Child);
                 }
 
             }
@@ -81,20 +84,27 @@ namespace VegetablePatch
 
         private void DeleteFile_Click(object sender, RoutedEventArgs e)
         {
-            if (Listbox.SelectedIndex == -1)
+            if (ListboxTemplate.SelectedIndex == -1)
             {
                 MessageBox.Show("Овощей пока еще не завезли", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            BussinesLogic.DeleteFile(Listbox.SelectedValue.ToString());
+            BussinesLogic.DeleteFile(((ListViewModel)ListboxTemplate.SelectedValue).Name, GetNameListBox(), ((ListViewModel)ListboxTemplate.SelectedValue).Child);
             MessageBox.Show("Произошла жатва, овощ удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             Load();
         }
-
+        private Category GetNameListBox()
+        {
+            if(ListboxTemplate.SelectedIndex > -1)
+            {
+                return Category.Шаблоны;
+            }
+            return Category.УчСправки;
+        }
         private void BackupButton_Click(object sender, RoutedEventArgs e)
         {
-            if(Listbox.Items.Count < 1)
+            if(ListboxTemplate.Items.Count < 1)
             {
                 MessageBox.Show("Сначала посади овощ, потом требуй урожай", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

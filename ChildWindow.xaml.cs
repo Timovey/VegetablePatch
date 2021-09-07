@@ -43,22 +43,19 @@ namespace VegetablePatch
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            int i = 0;
+           
             if (sender is RadioButton item)
             {
-                if(item.IsChecked != null)
+                if (item.IsChecked != null && item.Name.Equals("Parent"))
                 {
-                    if(i == 0)
-                    {
-                        Result = false;
-                    }
-                    else
-                    {
-                        Result = true;
-                    }
+                    Result = false;
                 }
-                i++;
+                if (item.IsChecked != null && item.Name.Equals("Child"))
+                {
+                    Result = true;
+                }
             }
+
         }
     }
 }
