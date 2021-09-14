@@ -48,16 +48,16 @@ namespace VegetablePatch
                 {
                     return null;
                 }
-               
+
                 XDocument xDocument = XDocument.Load(nameListDocs);
                 var ChildElements = xDocument.Root.Element(category.ToString()).Element("Детские").Elements("Doc").ToList();
                 var ParentElements = xDocument.Root.Element(category.ToString()).Element("Взрослые").Elements("Doc").ToList();
                 foreach (var elem in ChildElements)
                 {
-                    list.Add(new ListViewModel{
-                    Name = elem.Value ,
-                    Child = true,
-                    Color = new SolidColorBrush(ChildColor) 
+                    list.Add(new ListViewModel {
+                        Name = elem.Value,
+                        Child = true,
+                        Color = new SolidColorBrush(ChildColor)
                     });
                 }
                 foreach (var elem in ParentElements)
@@ -81,11 +81,11 @@ namespace VegetablePatch
         public static void AddFile(string fileName, Category category, bool child)
         {
             string old = "Взрослые";
-            if(child)
+            if (child)
             {
                 old = "Детские";
             }
-            
+
             try
             {
                 CreateDocXML();
@@ -97,25 +97,116 @@ namespace VegetablePatch
                 }
 
                 bool repeatName = false;
-                    XDocument xDocument = XDocument.Load(nameListDocs);
-                    var xElements = xDocument.Root.Element(category.ToString()).Element(old).Elements("Doc").ToList();
-                    foreach (var elem in xElements)
+                XDocument xDocument = XDocument.Load(nameListDocs);
+                var xElements = xDocument.Root.Element(category.ToString()).Element(old).Elements("Doc").ToList();
+                foreach (var elem in xElements)
+                {
+                    if (elem.Value.Equals(shortName))
                     {
-                        if (elem.Value.Equals(shortName))
-                        {
-                            repeatName = true;
-                        }
+                        repeatName = true;
                     }
-                    if (!repeatName)
-                    {
-                        var Category = xDocument.Root.Element(category.ToString()).Element(old);
-                        XElement xElement = new XElement("Doc", shortName);
-                        Category.Add(xElement);
-                        xDocument.Save(nameListDocs);
-                    }
+                }
+                if (!repeatName)
+                {
+                    var Category = xDocument.Root.Element(category.ToString()).Element(old);
+                    XElement xElement = new XElement("Doc", shortName);
+                    Category.Add(xElement);
+                    xDocument.Save(nameListDocs);
+                }
 
                 string path = PathSelector(category.ToString(), old, shortName);
                 File.Copy(fileName, path, true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void MoveFile(Category oldCategory, string shortName, Category newCategory, bool child)
+        {
+            string old = "Взрослые";
+            if (child)
+            {
+                old = "Детские";
+            }
+
+            try
+            {
+                CreateDocXML();
+                CreateFolders();
+
+                if (!File.Exists(nameListDocs))
+                {
+                    throw new Exception("А файла то нема");
+                }
+
+                bool repeatName = false;
+                XDocument xDocument = XDocument.Load(nameListDocs);
+                var xElements = xDocument.Root.Element(newCategory.ToString()).Element(old).Elements("Doc").ToList();
+                foreach (var elem in xElements)
+                {
+                    if (elem.Value.Equals(shortName))
+                    {
+                        repeatName = true;
+                    }
+                }
+                if (!repeatName)
+                {
+                    var Category = xDocument.Root.Element(newCategory.ToString()).Element(old);
+                    XElement xElement = new XElement("Doc", shortName);
+                    Category.Add(xElement);
+                    xDocument.Save(nameListDocs);
+                }
+
+                string newPath = PathSelector(newCategory.ToString(), old, shortName);
+                string oldPath = PathSelector(oldCategory.ToString(), old, shortName);
+                File.Copy(oldPath, newPath, true);
+
+                OpenFile(PathSelector(Directory.GetCurrentDirectory(), newPath));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static void OpenFile(Category category, string Name, bool child)
+        {
+            string old = "Взрослые";
+            if (child)
+            {
+                old = "Детские";
+            }
+            try
+            {
+                OpenFile(PathSelector(Directory.GetCurrentDirectory(), category.ToString(), old, Name));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private static async void OpenFile(string fileName)
+        {
+            try
+            {
+
+                Application app = new Application();
+                app.Visible = true;
+                await System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        Document doc = app.Documents.Open(FileName: fileName, Visible: true);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                });
+
+            
             }
             catch (Exception ex)
             {
@@ -159,7 +250,7 @@ namespace VegetablePatch
         }
 
 
-        public static async void TakeFile(string terminalPath, string fileName, Category category, bool child)
+        public static void TakeFile(string terminalPath, string fileName, Category category, bool child)
         {
             string old = "Взрослые";
             if (child)
@@ -175,21 +266,7 @@ namespace VegetablePatch
             {
                 File.Copy(appPath, terminalPath, true);
 
-                Application app = new Application();
-                app.Visible = true;
-                await System.Threading.Tasks.Task.Run(() =>
-                {
-                    try
-                    {
-                        Document doc = app.Documents.Open(FileName: terminalPath, Visible: true);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                });
-
-
+                OpenFile(terminalPath);
 
             }
             catch (Exception ex)

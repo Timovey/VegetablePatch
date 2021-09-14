@@ -21,9 +21,11 @@ namespace VegetablePatch
     {
         public bool? Result { get; private set; }
 
-        public ChildWindow()
+        public ChildWindow(SolidColorBrush ParentColor, SolidColorBrush ChildColor)
         {
             InitializeComponent();
+            ((StackPanel)Parent.Content).Background = ParentColor;
+            ((StackPanel)Child.Content).Background = ChildColor;
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)

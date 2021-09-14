@@ -5,23 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VegetablePatch"
         mc:Ignorable="d"
-        Title="Vegetable Patch" Height="450" Width="800" Icon="Icon.ico">
-    <Grid>
+        Title="Vegetable Patch" MinHeight="500" MinWidth="1500" Height="500" Width="1500" Icon="Icon.ico">
+    <Window.Resources>
+        <DataTemplate x:Key="ListBoxTemplate">
+            <StackPanel Margin="5">
+                <TextBlock FontSize="16" Text="{Binding Path=Name}" Background="{Binding Path=Color}" HorizontalAlignment="Center" />
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid MinHeight="500" MinWidth="1500">
         <Button x:Name="AddFile" Content="Добавить в шаблоны" HorizontalAlignment="Left" Height="33" 
-                Margin="601,44,0,0" VerticalAlignment="Top" Width="150" Click="AddFile_Click"/>
-        <ListBox x:Name="ListboxTemplate" HorizontalAlignment="Left" Height="313" Margin="54,54,0,0" VerticalAlignment="Top" Width="164" MouseDoubleClick="Listbox_MouseDoubleClick">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Margin="5">
-                        <TextBlock FontSize="16" Text="{Binding Path=Name}" Background="{Binding Path=Color}" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+                Margin="1310,40,0,0" VerticalAlignment="Top" Width="150" Click="AddFile_Click"/>
+        <ListBox x:Name="ListboxTemplate" HorizontalAlignment="Left" Height="313" Margin="48,86,0,0" VerticalAlignment="Top" Width="164"
+                 MouseDoubleClick="Listbox_MouseDoubleClick" ListBox.ItemTemplate="{StaticResource ResourceKey=ListBoxTemplate}">
         </ListBox>
-        <Button x:Name="DeleteFile" Content="Удалить" HorizontalAlignment="Left" Height="30" Margin="601,337,0,0" VerticalAlignment="Top" Width="150" Click="DeleteFile_Click"/>
-        <Button Content="Back Up" x:Name="BackupButton" HorizontalAlignment="Left" Height="39" Margin="601,92,0,0" VerticalAlignment="Top" Width="150" Click="BackupButton_Click"/>
+
+        <ListBox x:Name="ListboxFirst" HorizontalAlignment="Left" Height="313" Margin="244,86,0,0" VerticalAlignment="Top" Width="164" 
+                 MouseDoubleClick="Listbox_MouseDoubleClick" ListBox.ItemTemplate="{StaticResource ResourceKey=ListBoxTemplate}">
+        </ListBox>
+
+        <ListBox x:Name="ListboxSecond" HorizontalAlignment="Left" Height="313" Margin="434,86,0,0" VerticalAlignment="Top" Width="164"
+                 MouseDoubleClick="Listbox_MouseDoubleClick" ListBox.ItemTemplate="{StaticResource ResourceKey=ListBoxTemplate}">
+        </ListBox>
+
+        <ListBox x:Name="ListboxRecovered" HorizontalAlignment="Left" Height="313" Margin="622,86,0,0" VerticalAlignment="Top" Width="164"
+                 MouseDoubleClick="Listbox_MouseDoubleClick" ListBox.ItemTemplate="{StaticResource ResourceKey=ListBoxTemplate}">
+        </ListBox>
+
+        <ListBox x:Name="ListboxVk" HorizontalAlignment="Left" Height="313" Margin="812,86,0,0" VerticalAlignment="Top" Width="164"
+                 MouseDoubleClick="Listbox_MouseDoubleClick" ListBox.ItemTemplate="{StaticResource ResourceKey=ListBoxTemplate}">
+        </ListBox>
+
+        <ListBox x:Name="ListboxCertificate" HorizontalAlignment="Left" Height="313" Margin="1002,86,0,0" VerticalAlignment="Top" Width="164" 
+                 MouseDoubleClick="Listbox_MouseDoubleClick" ListBox.ItemTemplate="{StaticResource ResourceKey=ListBoxTemplate}">
+        </ListBox>
+        <Button x:Name="DeleteFile" Content="Удалить" HorizontalAlignment="Left" Height="30" Margin="1310,369,0,0" VerticalAlignment="Top" Width="150" Click="DeleteFile_Click"/>
+        <Button Content="Back Up" x:Name="BackupButton" HorizontalAlignment="Left" Height="38" Margin="1310,100,0,0" VerticalAlignment="Top" Width="150" Click="BackupButton_Click" RenderTransformOrigin="1.817,1.795"/>
         <Label Name="ParentLabel" Content="Взрослые" HorizontalAlignment="Left" Height="30" Margin="48,10,0,0" VerticalAlignment="Top" Width="83"/>
         <Label Name="ChildLabel" Content="Детские" HorizontalAlignment="Left" Height="30" Margin="175,10,0,0" VerticalAlignment="Top" Width="93"/>
+        <Label Content="Шаблоны" HorizontalAlignment="Left" Height="22" Margin="50,44,0,0" VerticalAlignment="Top" Width="116"/>
+        <Label Content="Первичные" HorizontalAlignment="Left" Height="26" Margin="244,40,0,0" VerticalAlignment="Top" Width="132"/>
+        <Label Content="Вторичные" HorizontalAlignment="Left" Height="26" Margin="434,40,0,0" VerticalAlignment="Top" Width="128"/>
+        <Label Content="Выздоровевшие" HorizontalAlignment="Left" Height="26" Margin="622,40,0,0" VerticalAlignment="Top" Width="164"/>
+        <Label Content="Вк" HorizontalAlignment="Left" Height="22" Margin="812,44,0,0" VerticalAlignment="Top" Width="164"/>
+        <Label Content="Ученические справки" HorizontalAlignment="Left" Height="26" Margin="1002,40,0,0" VerticalAlignment="Top" Width="164"/>
+        <Button x:Name="OpenFile" Content="Открыть файл" HorizontalAlignment="Left" Height="37" Margin="1310,153,0,0" VerticalAlignment="Top" Width="150" Click="OpenFile_Click"/>
 
     </Grid>
 </Window>
